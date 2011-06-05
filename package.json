@@ -3,6 +3,11 @@
 , "description" : "Github post-receive hook router"
 , "keywords" : [ "github", "git", "post-receive", "post", "receive", "hook", "router" ]
 , "author": "Sami Samhuri <sami@samhuri.net>"
+, "maintainers" :
+  [{ "name": "Sami Samhuri"
+   , "email": "sami@samhuri.net"
+   }
+  ]
 , "homepage" : "http://samhuri.net/proj/ThePusher"
 , "dependencies" : { "batteries" : "0.4.x" }
 , "main" : "pusher"
@@ -10,11 +15,7 @@
 , "engines" : { "node" : "0.4.x" }
 , "repository" :
   { "type" : "git"
-  , "url" : "http://github.com/samsonjs/ThePusher.git"
-  }
-, "bugs" :
-  { "mail" : "sami@samhuri.net"
-  , "web" : "http://github.com/samsonjs/ThePusher/issues"
+  , "url" : "https://github.com/samsonjs/ThePusher.git"
   }
 , "licenses" :
   [ { "type" : "MIT"
