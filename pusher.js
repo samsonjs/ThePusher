@@ -131,7 +131,7 @@ function parseRefSpec(spec) {
 }
 
 function textResponder(status, text) {
-  var headers = { 'content-type': 'text/plain', 'content-length': (text || ''.length) }
+  var headers = { 'content-type': 'text/plain', 'content-length': (text || '').length }
   return function(req, res) {
     res.writeHead(status, headers)
     res.end(text)
