@@ -146,13 +146,16 @@ function parseRequest(req, cb) {
   req.on('data', function(b) { parts.push(b) })
   req.on('end', function() {
     var body = parts.join('')
+      , err = null
+      , data
     try { 
-      cb(null, JSON.parse(querystring.parse(body).payload))
+      data = JSON.parse(querystring.parse(body).payload)
     }
-    catch (err) {
+    catch (e) {
+      err = e
       err.body = body
-      cb(err)
     }
+    cb(err, data)
   })
 }
 
