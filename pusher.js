@@ -171,16 +171,23 @@ function routeRequest(req, res) {
         return
       }
 
+      try {
+        var action
+          , owner = payload.repository.owner.name
+          , repo = payload.repository.name
+          , ref = payload.ref
+          , branch = ref.match(/^refs\/heads\//) ? ref.split('/')[2] : null
+          , tag = ref.match(/^refs\/tags\//) ? ref.split('/')[2] : null
+          , refType = branch ? 'branch' : tag ? 'tag' : 'unknown'
+      } catch (e) {
+        console.error('!!! malformed payload: ' + e)
+        console.error(e.stack)
+        badRequest(req, res)
+        return
+      }
+
       res.writeHead(204)
       res.end()
-
-      var action
-        , owner = payload.repository.owner.name
-        , repo = payload.repository.name
-        , ref = payload.ref
-        , branch = ref.match(/^refs\/heads\//) ? ref.split('/')[2] : null
-        , tag = ref.match(/^refs\/tags\//) ? ref.split('/')[2] : null
-        , refType = branch ? 'branch' : tag ? 'tag' : 'unknown'
 
       if (payload.created) {
         action = 'create'
