@@ -13,6 +13,10 @@ run `npm i --global thepusher`.
 Run `thepusher` from the command line. It does not daemonize itself, it only logs to
 stdout, and it doesn't run at startup. Yet. Pull requests accepted and encouraged.
 
+When you run ThePusher it'll tell you the exact URL to use as your post-receive hook.
+Add that URL to all the projects you need to on Github in the Admin panel.
+More specifically go to Admin -> Service Hooks -> Post-receive URLs.
+
 ## Configuration
 
 ThePusher's config file resides at `~/.pusher` and looks like this:
