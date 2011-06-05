@@ -13,6 +13,7 @@ var crypto = require('crypto')
   , fs = require('fs')
   , http = require('http')
   , querystring = require('querystring')
+  , spawn = require('child_process').spawn
   , server = http.createServer(routeRequest)
   , serverOptions = { host: '127.0.0.1'
                     , port: 6177
@@ -73,7 +74,7 @@ function parseLine(line) {
       process.env.PUSHER_GITHUB_TOKEN = val
     }
     else {
-      console.warn('>>> unrecognized variable: ' + name + ' = ' + val)
+      console.warn('??? unrecognized variable: ' + name + ' = ' + val)
     }
   }
 
@@ -85,7 +86,7 @@ function parseLine(line) {
     if (refType === 'tag' && (action === 'force' || action === 'merge')) {
       throw new Error(action + ' is not supported with tags, try create or delete')
     }
-    console.log('>>> ' + line)
+    console.log('* Trigger: ' + line)
     addTrigger({ action: action
                , refType: refType
                , refSpec: ref.spec
@@ -231,9 +232,8 @@ function routeRequest(req, res) {
 
 function runCommand(options) {
   console.log('>>> running command: ' + options.command)
-  var spawn = require('child_process').spawn
-    // TODO quoting
-    , args = options.command.split(/\s+/)
+  // TODO quoting
+  var args = options.command.split(/\s+/)
     , cmd = args.shift()
   process.env.PUSHER_ACTION = options.action || ''
   process.env.PUSHER_OWNER = options.owner || ''
@@ -249,7 +249,19 @@ function runCommand(options) {
 }
 
 function startServer() {
-  server.listen(serverOptions.port, serverOptions.host)
+  var host = serverOptions.host
+    , port = serverOptions.port
+    , token = serverOptions.githubToken
+  if (host === '0.0.0.0') {
+    spawn('hostname', ['-f']).stdout.on('data', function(b) {
+      host = String(b).trim()
+      console.log('>>> Listening for pushes on http://' + host + ':' + port + '/' + token)
+    })
+  }
+  else {
+    console.log('>>> Listening for pushes on http://' + host + ':' + port + '/' + token)
+  }
+  server.listen(port, host)
 }
 
 function stopServer() {
