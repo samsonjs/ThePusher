@@ -13,6 +13,8 @@ run `npm i --global thepusher`.
 Run `thepusher` from the command line. It does not daemonize itself, it only logs to
 stdout, and it doesn't run at startup. Yet. Pull requests accepted and encouraged.
 
+## Configuration
+
 ThePusher's config file resides at `~/.pusher` and looks like this:
 
     host github.samhuri.net
@@ -40,7 +42,7 @@ ThePusher's config file resides at `~/.pusher` and looks like this:
     # any tag is deleted in "my-project"
     delete tag my-project:* delete-build-for-tag.sh
 
-As you probably noticed triggers follow the form:
+As you may have noticed triggers follow the form:
 
     <action> <ref type> <owner/repo:ref> <command>
   
@@ -58,6 +60,22 @@ name it's the branch or tag name, effectively `*/*:name`.
 
 Everything after the ref spec is the command. Commands are not quoted, just good old
 terrible space splitting.
+
+## Commands
+
+A few environment variables are set so that commands know what triggered them.
+
+Their names should give away their values:
+
+ * `PUSHER_ACTION`
+ * `PUSHER_OWNER`
+ * `PUSHER_REPO`
+ * `PUSHER_REFTYPE`
+ * `PUSHER_BRANCH`
+ * `PUSHER_TAG`
+
+Only one of `PUSHER_BRANCH` or `PUSHER_TAG` will bet set, and that will correspond
+with the value of `PUSHER_REFTYPE` which is either `branch` or `tag`.
 
 ## License 
 
