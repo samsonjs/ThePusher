@@ -17,6 +17,8 @@ When you run ThePusher it'll tell you the exact URL to use as your post-receive 
 Add that URL to all the projects you need to on Github in the Admin panel.
 More specifically go to Admin -> Service Hooks -> Post-receive URLs.
 
+Your post-receive URL is `http://host:port/token`, in the config below that would be `http://github.samhuri.net:6177/e815fb07bb390b5e47e509fd1e31e0d82e5d9c24`.
+
 ## Configuration
 
 ThePusher's config file resides at `~/.pusher` and looks like this:
