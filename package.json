@@ -18,6 +18,7 @@
   "homepage": "http://samhuri.net/proj/ThePusher",
   "dependencies": {
     "batteries": "0.4.x"
+  , "optimist":  "0.2.x"
   },
   "main": "pusher",
   "bin": {

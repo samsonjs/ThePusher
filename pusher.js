@@ -37,9 +37,11 @@ function sha1(s) {
 }
 
 function main() {
-  var path = require('path')
+  var args = require('optimist').argv
     , eachLine = require('batteries').fs.eachLine
-    , rcFile = require('path').join(process.env.HOME, '.pusher')
+    , rcFile = args._[0] || require('path').join(process.env.HOME, '.pusher')
+
+  if (args.v || args.verbose) serverOptions.verbose = true
 
   fs.stat(rcFile, function(err, s) {
     if (err) {
@@ -161,7 +163,7 @@ function parseRequest(req, cb) {
 }
 
 function routeRequest(req, res) {
-  console.log([req.method, req.url, req.connection.remoteAddress, req.headers['content-length'], req.headers['content-type']].join(' '))
+  // console.log([req.method, req.url, req.connection.remoteAddress, req.headers['content-length'], req.headers['content-type']].join(' '))
   if (req.url === '/' + serverOptions.githubToken && req.method === 'POST') {
     parseRequest(req, function(err, payload) {
       if (err) {
@@ -231,7 +233,7 @@ function routeRequest(req, res) {
 }
 
 function runCommand(options) {
-  console.log('>>> running command: ' + options.command)
+  console.log('>>> [' + new Date() + '] running command: ' + options.command)
   // TODO quoting
   var args = options.command.split(/\s+/)
     , cmd = args.shift()
@@ -242,7 +244,7 @@ function runCommand(options) {
   process.env.PUSHER_BRANCH = options.branch || ''
   process.env.PUSHER_TAG = options.tag || ''
   var child = spawn(cmd, args)
-  if (options.verbose) {
+  if (serverOptions.verbose) {
     child.stdout.on('data', function(b) { console.log('out>>> ' + b) })
     child.stderr.on('data', function(b) { console.log('err>>> ' + b) })
   }
@@ -275,30 +277,30 @@ function spiel() {
   , ""
   , "ThePusher's config file resides at `~/.pusher` and looks like this:"
   , ""
-  , "host github.samhuri.net"
-  , "port 6177"
+  , "  host github.samhuri.net"
+  , "  port 6177"
   , ""
-  , "# a unique identifier used in the receive hook url"
-  , "token e815fb07bb390b5e47e509fd1e31e0d82e5d9c24"
+  , "  # a unique identifier used in the receive hook url"
+  , "  token e815fb07bb390b5e47e509fd1e31e0d82e5d9c24"
   , ""
-  , "# a branch named \"feature\" is created"
-  , "create branch feature notify-mailing-list.sh"
+  , "  # a branch named \"feature\" is created"
+  , "  create branch feature notify-mailing-list.sh"
   , ""
-  , "# any branch is deleted in a repo named \"my-project\""
-  , "delete branch my-project:* notify-mailing-list.sh"
+  , "  # any branch is deleted in a repo named \"my-project\""
+  , "  delete branch my-project:* notify-mailing-list.sh"
   , ""
-  , "# commits are pushed to any branch on samsonjs/ThePusher, fast-forward merge"
-  , "# (e.g. https://github.com/samsonjs/ThePusher)"
-  , "merge branch samsonjs/ThePusher post-to-twitter.sh"
+  , "  # commits are pushed to any branch on samsonjs/ThePusher, fast-forward merge"
+  , "  # (e.g. https://github.com/samsonjs/ThePusher)"
+  , "  merge branch samsonjs/ThePusher post-to-twitter.sh"
   , ""
-  , "# someone force pushed to master in any of my projects"
-  , "force branch samsonjs/*:master send-an-angry-email.sh"
+  , "  # someone force pushed to master in any of my projects"
+  , "  force branch samsonjs/*:master send-an-angry-email.sh"
   , ""
-  , "# any tag is created in \"my-project\""
-  , "create tag my-project:* build-tag.sh"
+  , "  # any tag is created in \"my-project\""
+  , "  create tag my-project:* build-tag.sh"
   , ""
-  , "# any tag is deleted in \"my-project\""
-  , "delete tag my-project:* delete-build-for-tag.sh"
+  , "  # any tag is deleted in \"my-project\""
+  , "  delete tag my-project:* delete-build-for-tag.sh"
   , ""
   , "Create ~/.pusher and run `thepusher` again."
   ].forEach(function(s) { console.log(s) })

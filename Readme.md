@@ -13,15 +13,18 @@ run `npm i --global thepusher`.
 Run `thepusher` from the command line. It does not daemonize itself, it only logs to
 stdout, and it doesn't run at startup. Yet. Pull requests accepted and encouraged.
 
-When you run ThePusher it'll tell you the exact URL to use as your post-receive hook.
-Add that URL to all the projects you need to on Github in the Admin panel.
+When started, ThePusher displays the exact URL to use as your post-receive hook.
+Head over to Github and add that URL in the admin panel of all the projects you want to handle.
 More specifically go to Admin -> Service Hooks -> Post-receive URLs.
 
 Your post-receive URL is `http://host:port/token`, in the config below that would be `http://github.samhuri.net:6177/e815fb07bb390b5e47e509fd1e31e0d82e5d9c24`.
 
+If you want to see output from triggered commands pass in `-v` or `--verbose`.
+
 ## Configuration
 
-ThePusher's config file resides at `~/.pusher` and looks like this:
+ThePusher accepts a config file as a command line parameter, and if unspecified the default
+config file resides at `~/.pusher`. In either case it looks something like this:
 
     host github.samhuri.net
     port 6177
@@ -62,7 +65,7 @@ one of them is present. To reference the branch or tag named `staging` in the re
 named `server` owned by `samsonjs` you write `samsonjs/server:staging`. If there is one
 name it's the branch or tag name, effectively `*/*:name`.
 
-(It's not real globbing the value `*` is just special cased.)
+(It's not real globbing, the value `*` is just special cased.)
 
 Everything after the ref spec is the command. Commands are not quoted, just good old
 terrible space splitting.
