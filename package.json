@@ -1,6 +1,6 @@
 {
   "name": "thepusher",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Github post-receive hook router",
   "keywords": [
     "github",
@@ -17,8 +17,8 @@
   ],
   "homepage": "http://samhuri.net/proj/ThePusher",
   "dependencies": {
-    "batteries": "0.4.x"
-  , "optimist":  "0.2.x"
+    "batteries": "0.4.x",
+    "optimist": "0.2.x"
   },
   "main": "pusher",
   "bin": {
