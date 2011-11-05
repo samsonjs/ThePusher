@@ -1,6 +1,6 @@
 {
   "name": "thepusher",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Github post-receive hook router",
   "keywords": [
     "github",
