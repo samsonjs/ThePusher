@@ -25,7 +25,7 @@
     "thepusher": "./pusher.js"
   },
   "engines": {
-    "node": "0.4.x - 0.6.x"
+    "node": ">=0.4.x"
   },
   "repository": {
     "type": "git",
