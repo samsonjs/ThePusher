@@ -1,11 +1,10 @@
-
 # ThePusher
 
 Github post-receive hook router.
 
 ## Installation
 
-Make sure you've [got node and npm installed](https://gist.github.com/579814) and then
+Make sure you've [got node and npm installed](http://nodejs.org/download/) and then
 run `npm i --global thepusher`.
 
 ## Use
